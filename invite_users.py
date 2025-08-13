@@ -7,7 +7,7 @@ from authorize import authorize
 
 load_dotenv()
 
-file = 'tmp/blockDAGnetworkOfficial_usernames.txt'
+file = 'tmp/blockDAGnetworkOfficial_usernames_valid.txt'
 
 with open(file) as f:
   users = f.read().split('\n')
@@ -19,11 +19,20 @@ channel = environ.get("CHANNEL")
 
 async def main ():
   client = await authorize(phone, api_id, api_hash)
-
-  await client(InviteToChannelRequest(
-    channel,
-    users
-  ))
+  n = 0
+  limit = 1000
+  while True:
+    start = n * limit
+    end = start + limit
+    chunk = users[start:end]
+    await client(InviteToChannelRequest(
+      channel,
+      chunk
+    ))
+    print(f'Chunk completed {n}')
+    if len(chunk) < limit:
+      break
+    n += 1
 
   print("Invite completed")
 
