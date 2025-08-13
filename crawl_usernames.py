@@ -7,11 +7,8 @@ from os import environ
 load_dotenv()
 
 api_id = int(environ.get("TG_API_ID"))
-
 api_hash = environ.get("TG_API_HASH")
-
 phone = environ.get("TG_PHONE")
-
 channel = environ.get("CHANNEL")
 
 def save (data: dict):
