@@ -20,30 +20,9 @@ channel = environ.get("CHANNEL")
 async def main ():
   client = await authorize(phone, api_id, api_hash)
 
-  test_list = [
-    "gfpeti",
-    "Sjproton",
-    "II12024",
-    "xiaoyan0456",
-    "devletialiyeee",
-    "Bleshon",
-    "alexkuchun",
-    "ermnmuskelon",
-    "mr_yo01",
-    "dmmorz",
-    "darkieduck",
-    "sevalen",
-    "RodneyCalpito",
-    "addybitg",
-    "eneyes7676",
-    "CelloSvg1",
-    "ox_func",
-    "Anton110673"
-  ]
-
   await client(InviteToChannelRequest(
     channel,
-    test_list
+    users
   ))
 
   print("Invite completed")
