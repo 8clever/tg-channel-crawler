@@ -1,6 +1,7 @@
 
 import asyncio
 from os import environ
+from random import randrange
 from dotenv import load_dotenv
 from telethon.tl.functions.channels import InviteToChannelRequest
 from authorize import authorize
@@ -23,13 +24,17 @@ async def main ():
   client = await authorize(phone, api_id, api_hash)
   n = 0
   for id in users:
-    print(f'Invite: {id}')
+
+    # start inviting
     try:
       await client(InviteToChannelRequest(
         channel,
         [id]
       ))
-      await asyncio.sleep(1)
+      await asyncio.sleep(randrange(1, 5, 0.1))
+      print(f'Invited {id}')
+
+    # catch invalid users
     except Exception as e:
       msg = str(e)
       invalid_user = (
@@ -40,6 +45,8 @@ async def main ():
         print(f'Invalid user: {id}, removed!')
       else:
         raise e
+      
+    # remove user from pending state
     users.remove(id)
     with open(file_path, 'w') as f:
       f.write('\n'.join(users))
