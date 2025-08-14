@@ -28,7 +28,7 @@ async def main ():
     # start inviting
     try:
       await client(InviteToChannelRequest(channel, [id]))
-      await asyncio.sleep(randrange(1, 5, 0.1))
+      await asyncio.sleep(randrange(5, 10, 1))
       print(f'Invited {id}, Done {n}/{total}')
 
     # catch invalid users
@@ -44,6 +44,7 @@ async def main ():
         raise e
       
     # remove user from pending state
+    n += 1
     users.remove(id)
     with open(file_path, 'w') as f:
       f.write('\n'.join(users))
