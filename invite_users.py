@@ -32,7 +32,7 @@ async def main ():
         [id]
       ))
       await asyncio.sleep(randrange(1, 5, 0.1))
-      print(f'Invited {id}')
+      print(f'Invited {id}, Done {n}/{total}')
 
     # catch invalid users
     except Exception as e:
@@ -50,8 +50,6 @@ async def main ():
     users.remove(id)
     with open(file_path, 'w') as f:
       f.write('\n'.join(users))
-
-    print(f'Done {n}/{total}')
 
   print("Invite completed")
 
