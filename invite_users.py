@@ -27,10 +27,7 @@ async def main ():
 
     # start inviting
     try:
-      await client(InviteToChannelRequest(
-        channel,
-        [id]
-      ))
+      await client(InviteToChannelRequest(channel, [id]))
       await asyncio.sleep(randrange(1, 5, 0.1))
       print(f'Invited {id}, Done {n}/{total}')
 
