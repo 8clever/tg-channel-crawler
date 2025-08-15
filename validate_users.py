@@ -2,36 +2,38 @@
 import asyncio
 from os import environ
 from dotenv import load_dotenv
-from telethon.tl.functions.channels import InviteToChannelRequest
+from telethon import TelegramClient
 from authorize import authorize
+from telethon.hints import EntitiesLike
 
-load_dotenv()
-
-file_name = 'blockDAGnetworkOfficial_usernames'
-
-with open(f'tmp/{file_name}.txt') as f:
-  users = f.read().split('\n')
-
-api_id = int(environ.get("TG_API_ID"))
-api_hash = environ.get("TG_API_HASH")
-phone = environ.get("TG_PHONE")
-channel = environ.get("CHANNEL")
-total = len(users)
-
-print(f'Loaded: {total}')
+async def validate_user (client: TelegramClient, id: EntitiesLike):
+  entity = await client.get_entity(id)
+  print(entity)
+  is_invalid = (
+    entity.deleted or
+    entity.bot or 
+    entity.mutual_contact
+  )
+  return not is_invalid
 
 async def main ():
+  load_dotenv()
+
+  file_name = 'blockDAGnetworkOfficial_usernames'
+  with open(f'tmp/{file_name}.txt') as f:
+    users = f.read().split('\n')
+
+  api_id = int(environ.get("TG_API_ID"))
+  api_hash = environ.get("TG_API_HASH")
+  phone = environ.get("TG_PHONE")
   client = await authorize(phone, api_id, api_hash)
   n = 0
   for id in users:
-    try:
-      user = await client.get_entity(id)
-      if user.bot or user.deleted:
-        users.remove(id)
-    except:
-      users.remove(id)
-
-    print(f'Done {n}/{total}')
+    if n > 10:
+      break
+      
+    is_valid = await validate_user(client, id)
+    print(f'{id}, valid: {is_valid}')
     n += 1
   
   print(f'Valid users: {len(users)}')
@@ -40,4 +42,5 @@ async def main ():
 
   print("Validation completed")
 
-asyncio.run(main())
+if __name__ == "__main__":
+  asyncio.run(main())

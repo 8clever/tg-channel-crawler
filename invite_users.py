@@ -22,30 +22,23 @@ total = len(users)
 
 async def main ():
   client = await authorize(phone, api_id, api_hash)
-  n = 0
+  limit_per_invite = 100
+  invite_list = []
   for id in users:
+    # add users to batch request
+    invite_list.append(id)
+    if len(invite_list) < limit_per_invite:
+      continue
 
     # start inviting
-    try:
-      await client(InviteToChannelRequest(channel, [id]))
-      await asyncio.sleep(randrange(5, 10, 1))
-      print(f'Invited {id}, Done {n}/{total}')
+    await client(InviteToChannelRequest(channel, invite_list))
+    print(f'Invited {", ".join(invite_list)}')
 
-    # catch invalid users
-    except Exception as e:
-      msg = str(e)
-      invalid_user = (
-        id in msg or
-        'The provided user is not a mutual contact' in msg
-      )
-      if invalid_user:
-        print(f'Invalid user: {id}, removed!')
-      else:
-        raise e
-      
-    # remove user from pending state
-    n += 1
-    users.remove(id)
+    # remove users from pending state
+    for i in invite_list:
+      users.remove(i)
+
+    # store pending state
     with open(file_path, 'w') as f:
       f.write('\n'.join(users))
 
