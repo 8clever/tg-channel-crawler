@@ -29,6 +29,7 @@ async def main ():
   client = await authorize(phone, api_id, api_hash)
   limit_per_invite = 20
   invite_list = []
+  
   for id in users:
     # add users to batch request
     is_valid_user = await validate_user(client, id)
