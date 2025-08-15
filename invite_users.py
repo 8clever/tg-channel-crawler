@@ -26,7 +26,7 @@ def save ():
 
 async def main ():
   client = await authorize(phone, api_id, api_hash)
-  limit_per_invite = 20
+  limit_per_invite = 100
   invite_list = []
 
   for id in users:
@@ -57,6 +57,9 @@ async def main ():
 
     # clean batch list
     invite_list = []
+    
+    # stop processing, try to one batch per account
+    break
 
   print("Invite completed")
 
