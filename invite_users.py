@@ -32,6 +32,8 @@ async def main ():
   for id in users:
     # validate user
     is_valid_user = await validate_user(client, id)
+    print(f'{id}, valid: {is_valid_user}')
+    
     if not is_valid_user:
       users.remove(id)
       save()
