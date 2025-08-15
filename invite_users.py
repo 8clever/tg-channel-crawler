@@ -30,13 +30,14 @@ async def main ():
   invite_list = []
 
   for id in users:
-    # add users to batch request
+    # validate user
     is_valid_user = await validate_user(client, id)
     if not is_valid_user:
       users.remove(id)
       save()
       continue
-
+    
+    # add user to batch request
     invite_list.append(id)
     if len(invite_list) < limit_per_invite:
       continue
@@ -52,6 +53,7 @@ async def main ():
     # store pending state
     save()
 
+    # clean batch list
     invite_list = []
 
   print("Invite completed")
