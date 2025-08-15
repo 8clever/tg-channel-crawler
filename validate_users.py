@@ -7,8 +7,14 @@ from authorize import authorize
 from telethon.hints import EntitiesLike
 
 async def validate_user (client: TelegramClient, id: EntitiesLike):
-  entity = await client.get_entity(id)
-  print(entity)
+  try:
+    entity = await client.get_entity(id)
+  except Exception as e:
+    msg = str(e)
+    if 'No user' in msg:
+      return False
+    raise e
+  
   is_invalid = (
     entity.deleted or
     entity.bot or 

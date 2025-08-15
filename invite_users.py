@@ -5,6 +5,7 @@ from random import randrange
 from dotenv import load_dotenv
 from telethon.tl.functions.channels import InviteToChannelRequest
 from authorize import authorize
+from validate_users import validate_user
 
 load_dotenv()
 
@@ -20,12 +21,22 @@ phone = environ.get("TG_PHONE")
 channel = environ.get("CHANNEL")
 total = len(users)
 
+def save ():
+  with open(file_path, 'w') as f:
+    f.write('\n'.join(users))
+
 async def main ():
   client = await authorize(phone, api_id, api_hash)
-  limit_per_invite = 100
+  limit_per_invite = 20
   invite_list = []
   for id in users:
     # add users to batch request
+    is_valid_user = await validate_user(client, id)
+    if not is_valid_user:
+      users.remove(id)
+      save()
+      continue
+
     invite_list.append(id)
     if len(invite_list) < limit_per_invite:
       continue
@@ -39,8 +50,7 @@ async def main ():
       users.remove(i)
 
     # store pending state
-    with open(file_path, 'w') as f:
-      f.write('\n'.join(users))
+    save()
 
   print("Invite completed")
 
