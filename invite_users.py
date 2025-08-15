@@ -52,6 +52,8 @@ async def main ():
     # store pending state
     save()
 
+    invite_list = []
+
   print("Invite completed")
 
 asyncio.run(main())
