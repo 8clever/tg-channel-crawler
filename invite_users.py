@@ -32,7 +32,7 @@ async def main ():
   for id in users:
     # validate user
     is_valid_user = await validate_user(client, id)
-    print(f'{id}, valid: {is_valid_user}')
+    print(f'{id}, valid: {is_valid_user}, {len(invite_list)}/{limit_per_invite}')
     
     if not is_valid_user:
       users.remove(id)
