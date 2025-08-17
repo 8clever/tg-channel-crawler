@@ -11,7 +11,11 @@ async def validate_user (client: TelegramClient, id: EntitiesLike):
     entity = await client.get_entity(id)
   except Exception as e:
     msg = str(e)
-    if 'No user' in msg:
+    invalid_user = (
+      'Nobody is using this username' in msg or
+      'No user' in msg
+    )
+    if invalid_user:
       return False
     raise e
   

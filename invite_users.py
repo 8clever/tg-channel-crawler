@@ -26,7 +26,7 @@ def save ():
 
 async def main ():
   client = await authorize(phone, api_id, api_hash)
-  limit_per_invite = 19
+  limit_per_invite = 100
   invite_list = []
 
   for id in users:
