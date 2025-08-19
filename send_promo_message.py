@@ -34,7 +34,8 @@ total = len(users)
 
 messages = [
   '''🚀 Unlock the Future! 🔬 Join **Co.Ca. Lab** for exclusive insights, trending tech, and mind-blowing ideas! 💡
-Subscribe now and stay ahead of the curve! 📱 @co_ca_lab'''
+Subscribe now and stay ahead of the curve! 📱''',
+  'https://t.me/+CMou1sEEDAFiNzQy'
 ]
 
 async def main ():
