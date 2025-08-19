@@ -19,8 +19,8 @@ api_hash = environ.get("TG_API_HASH")
 phone = environ.get("TG_PHONE")
 channel = environ.get("CHANNEL")
 total = len(users)
-limit_per_invite = 97
-validate = False
+limit_per_invite = 50
+validate = True
 
 def save ():
   with open(file_path, 'w') as f:
