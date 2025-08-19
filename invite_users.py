@@ -19,6 +19,8 @@ api_hash = environ.get("TG_API_HASH")
 phone = environ.get("TG_PHONE")
 channel = environ.get("CHANNEL")
 total = len(users)
+limit_per_invite = 97
+validate = False
 
 def save ():
   with open(file_path, 'w') as f:
@@ -26,18 +28,18 @@ def save ():
 
 async def main ():
   client = await authorize(phone, api_id, api_hash)
-  limit_per_invite = 100
   invite_list = []
 
   for id in users:
     # validate user
-    is_valid_user = await validate_user(client, id)
-    print(f'{id}, valid: {is_valid_user}, {len(invite_list)}/{limit_per_invite}')
-    
-    if not is_valid_user:
-      users.remove(id)
-      save()
-      continue
+    if validate:
+      is_valid_user = await validate_user(client, id)
+      print(f'{id}, valid: {is_valid_user}, {len(invite_list)}/{limit_per_invite}')
+      
+      if not is_valid_user:
+        users.remove(id)
+        save()
+        continue
     
     # add user to batch request
     invite_list.append(id)
