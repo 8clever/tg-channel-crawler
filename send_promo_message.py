@@ -44,7 +44,7 @@ async def main ():
   for id in users:
     for m in messages:
       await client.send_message(id, m, parse_mode='Markdown')
-      
+
     print(f'Message sended to: {id}')
 
     # remove users from pending state
@@ -52,9 +52,6 @@ async def main ():
 
     # store pending state
     save()
-    
-    # stop processing, try to one batch per account
-    break
 
   print("Invite completed")
 
