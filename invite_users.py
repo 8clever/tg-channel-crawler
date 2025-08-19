@@ -8,11 +8,25 @@ from validate_users import validate_user
 
 load_dotenv()
 
-file_name = 'blockDAGnetworkOfficial_usernames_pending'
-file_path = f'tmp/{file_name}.txt'
+file_name = 'blockDAGnetworkOfficial_usernames'
+file_pending = f'{file_name}_pending'
 
-with open(file_path) as f:
-  users = f.read().split('\n')
+def file_name_to_path (name: str):
+  return f'tmp/{name}.txt'
+
+def save ():
+  with open(file_name_to_path(file_pending), 'w') as f:
+    f.write('\n'.join(users))
+
+users: list[str] = []
+
+try:
+  with open(file_name_to_path(file_pending)) as f:
+    users = f.read().split('\n')
+except:
+  with open(file_name_to_path(file_name)) as f:
+    users = f.read().split('\n')
+  save()
 
 api_id = int(environ.get("TG_API_ID"))
 api_hash = environ.get("TG_API_HASH")
@@ -21,10 +35,6 @@ channel = environ.get("CHANNEL")
 total = len(users)
 limit_per_invite = 50
 validate = True
-
-def save ():
-  with open(file_path, 'w') as f:
-    f.write('\n'.join(users))
 
 async def main ():
   client = await authorize(phone, api_id, api_hash)
