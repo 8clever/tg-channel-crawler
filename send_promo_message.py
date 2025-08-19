@@ -32,14 +32,19 @@ phone = environ.get("TG_PHONE")
 channel = environ.get("CHANNEL")
 total = len(users)
 
-message = '''🚀 Unlock the Future! 🔬 Join Co.Ca. Lab for exclusive insights, trending tech, and mind-blowing ideas! 💡
-Subscribe now and stay ahead of the curve! 📱 @co_ca_lab'''
+messages = [
+  '''🚀 Unlock the Future! 🔬 Join **Co.Ca. Lab** for exclusive insights, trending tech, and mind-blowing ideas! 💡
+Subscribe now and stay ahead of the curve! 📱''',
+  'https://t.me/+CMou1sEEDAFiNzQy'
+]
 
 async def main ():
   client = await authorize(phone, api_id, api_hash)
 
   for id in users:
-    await client.send_message(id, message)
+    for m in messages:
+      await client.send_message(id, m, parse_mode='Markdown')
+      
     print(f'Message sended to: {id}')
 
     # remove users from pending state
