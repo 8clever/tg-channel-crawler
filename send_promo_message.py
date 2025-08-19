@@ -42,10 +42,20 @@ async def main ():
   client = await authorize(phone, api_id, api_hash)
 
   for id in users:
-    for m in messages:
-      await client.send_message(id, m, parse_mode='Markdown')
-
-    print(f'Message sended to: {id}')
+    try:
+      for m in messages:
+        await client.send_message(id, m, parse_mode='Markdown')
+      print(f'Message sended to: {id}')
+    except Exception as e:
+      err = str(e)
+      is_expected_error = (
+        'No user' in err or
+        'Nobody is using this username' in err or
+        'PRIVACY_PREMIUM_REQUIRED' in err
+      )
+      if not is_expected_error:
+        raise e
+      print(f'{id} - {err}')
 
     # remove users from pending state
     users.remove(id)
