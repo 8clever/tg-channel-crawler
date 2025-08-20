@@ -12,12 +12,12 @@ file_pending = f'{file_name}_pending_invites'
 def file_name_to_path (name: str):
   return f'tmp/{name}.txt'
 
+users: list[str] = []
+
 def save ():
   with open(file_name_to_path(file_pending), 'w') as f:
     f.write('\n'.join(users))
-
-users: list[str] = []
-
+    
 try:
   with open(file_name_to_path(file_pending)) as f:
     users = f.read().split('\n')
