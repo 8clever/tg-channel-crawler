@@ -17,7 +17,7 @@ users: list[str] = []
 def save ():
   with open(file_name_to_path(file_pending), 'w') as f:
     f.write('\n'.join(users))
-    
+
 try:
   with open(file_name_to_path(file_pending)) as f:
     users = f.read().split('\n')
