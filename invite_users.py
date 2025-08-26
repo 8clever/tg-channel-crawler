@@ -33,7 +33,7 @@ api_hash = environ.get("TG_API_HASH")
 phone = environ.get("TG_PHONE")
 channel = environ.get("CHANNEL")
 total = len(users)
-limit_per_invite = 50
+limit_per_invite = 10
 validate = True
 
 async def main ():
@@ -57,7 +57,8 @@ async def main ():
       continue
 
     # start inviting
-    await client(InviteToChannelRequest(channel, invite_list))
+    res = await client(InviteToChannelRequest(channel, invite_list))
+    print(res)
     print(f'Invited {", ".join(invite_list)}')
 
     # remove users from pending state
