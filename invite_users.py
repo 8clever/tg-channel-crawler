@@ -58,8 +58,8 @@ async def main ():
 
     # start inviting
     res = await client(InviteToChannelRequest(channel, invite_list))
-    print(res)
     print(f'Invited {", ".join(invite_list)}')
+    print(f'Missing invitess: {len(res.missing_invitees)}')
 
     # remove users from pending state
     for i in invite_list:
