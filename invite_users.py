@@ -33,7 +33,7 @@ api_hash = environ.get("TG_API_HASH")
 phone = environ.get("TG_PHONE")
 channel = environ.get("CHANNEL")
 total = len(users)
-limit_per_invite = 10
+limit_per_invite = 20
 validate = True
 
 async def main ():
