@@ -76,7 +76,6 @@ async def invite_users (client: TelegramClient):
     break
 
 async def main ():
-
   for account in accounts:
     client = await authorize(account['phone'], account['api_id'], account["api_hash"])
     await invite_users(client)
