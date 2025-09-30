@@ -1,7 +1,9 @@
 
 import asyncio
+import json
 from os import environ
 from dotenv import load_dotenv
+from telethon import TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest
 from authorize import authorize
 from validate_users import validate_user
@@ -28,16 +30,15 @@ except:
     users = f.read().split('\n')
   save()
 
-api_id = int(environ.get("TG_API_ID"))
-api_hash = environ.get("TG_API_HASH")
-phone = environ.get("TG_PHONE")
 channel = environ.get("CHANNEL")
 total = len(users)
 limit_per_invite = 10
 validate = True
 
-async def main ():
-  client = await authorize(phone, api_id, api_hash)
+with open('accounts.json') as f:
+  accounts = json.load(f)
+
+async def invite_users (client: TelegramClient):
   invite_list = []
 
   for id in users:
@@ -74,6 +75,11 @@ async def main ():
     # stop processing, try to one batch per account
     break
 
-  print("Invite completed")
+async def main ():
+
+  for account in accounts:
+    client = await authorize(account['phone'], account['api_id'], account["api_hash"])
+    await invite_users(client)
+    print("Invite completed: " + account['phone'])
 
 asyncio.run(main())
