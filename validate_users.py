@@ -19,6 +19,9 @@ async def validate_user (client: TelegramClient, id: EntitiesLike):
       return False
     raise e
   
+  if not entity:
+    return False
+  
   is_invalid = (
     entity.deleted or
     entity.bot or 
