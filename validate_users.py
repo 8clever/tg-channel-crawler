@@ -20,7 +20,7 @@ async def validate_user (client: TelegramClient, id: EntitiesLike):
       return False
     raise e
 
-  if isinstance(entity, (Channel)):
+  if isinstance(entity, Channel):
     return False
   
   is_invalid = (
