@@ -3,6 +3,7 @@ import asyncio
 from os import environ
 from dotenv import load_dotenv
 from telethon import TelegramClient
+from telethon.types import Channel
 from authorize import authorize
 from telethon.hints import EntitiesLike
 
@@ -18,8 +19,8 @@ async def validate_user (client: TelegramClient, id: EntitiesLike):
     if invalid_user:
       return False
     raise e
-  
-  if not entity:
+
+  if isinstance(entity, (Channel)):
     return False
   
   is_invalid = (
